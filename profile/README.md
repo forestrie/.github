@@ -8,4 +8,4 @@ The original software continues to be available and maintained at: <https://gith
 
 This project (Forestrie) is an independent effort to continue the evolution of standards‑based, interoperable, and highly scalable provenance ledgers.
 
-Per the <./roadmap.md>
+Per the [roadmap](./roadmap.md)
