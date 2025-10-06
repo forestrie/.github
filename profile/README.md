@@ -26,6 +26,8 @@ Per the [roadmap](./roadmap.md)
 | [go-merklelog-fs][go-merklelog-fs] |[![status][go-merklelog-fs-ci-badge]][go-merklelog-fs-ci] | file system storage provider, pitched at replication and local receipts | maintained |
 
 
+See also [extras](./extras.md)
+
 [veracity]: https://github.com/forestrie/veracity
 [go-merklelog]: https://github.com/forestrie/go-merklelog
 [go-merklelog-azure]: https://github.com/forestrie/go-merklelog-azure
