@@ -34,6 +34,7 @@ See also [extras](./extras.md)
 [go-merklelog-fs]: https://github.com/forestrie/go-merklelog-fs
 [veracity-ci-badge]: https://github.com/forestrie/veracity/actions/workflows/ci.yml/badge.svg
 [veracity-ci]: https://github.com/forestrie/veracity/actions/workflows/ci.yml
+[go-merklelog-ci-badge]: https://github.com/forestrie/go-merklelog/actions/workflows/ci.yml/badge.svg
 [go-merklelog-ci]: https://github.com/forestrie/go-merklelog/actions/workflows/ci.yml
 [go-merklelog-fs-ci-badge]: https://github.com/forestrie/go-merklelog-fs/actions/workflows/ci.yml/badge.svg
 [go-merklelog-fs-ci]: https://github.com/forestrie/go-merklelog-fs/actions/workflows/ci.yml

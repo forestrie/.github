@@ -18,5 +18,3 @@
 [go-datatrails-common]: https://github.com/robinbryce/go-datatrails-common
 [go-datatrails-simplehash]: https://github.com/datatrails/go-datatrails-simplehash
 [go-datatrails-serialization]: https://github.com/datatrails/go-datatrails-serialization
-[go-merklelog-ci-badge]: https://github.com/forestrie/go-merklelog/actions/workflows/ci.yml/badge.svg
-
