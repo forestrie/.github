@@ -41,5 +41,5 @@ Per the [roadmap](./roadmap.md)
 [go-datatrails-common]: https://github.com/robinbryce/go-datatrails-common
 [go-datatrails-simplehash]: https://github.com/datatrails/go-datatrails-simplehash
 [go-datatrails-serialization]: https://github.com/datatrails/go-datatrails-serialization
-[veracity-ci-badge]: https://github.com/forestrie/veracity/workflows/ci.yml/badge.svg
-[veracity-ci]: https://github.com/forestrie/veracity/workflows/ci.yml
+[veracity-ci-badge]: https://github.com/forestrie/veracity/actions/workflows/ci.yml/badge.svg
+[veracity-ci]: https://github.com/forestrie/veracity/actions/workflows/ci.yml
