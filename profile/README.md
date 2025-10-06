@@ -1,5 +1,10 @@
 # Forestrie is a trust‑minimized digital provenance ledger
 
+<!--toc:start-->
+- [Forestrie is a trust‑minimized digital provenance ledger](#forestrie-is-a-trustminimized-digital-provenance-ledger)
+  - [Status](#status)
+<!--toc:end-->
+
 The software was originally created by DataTrails, Inc. as the underlay for their digital provenance platform and released under an MIT license to promote system transparency.
 
 DataTrails was acquired by [OnID](https://onid.co/) in 2025, who continue to operate the platform.
@@ -13,13 +18,13 @@ Per the [roadmap](./roadmap.md)
 ## Status
 
 * [![unit tests](https://github.com/forestrie/merklelog-ci/actions/workflows/go-test.yml/badge.svg)](https://github.com/forestrie/merklelog-ci/actions/workflows/go-test.yml)
-* [![status][veracity-ci-badge][veracity-ci]]
+* [![unit tests][veracity-ci-badge]][veracity-ci]
 
 
 
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
-| [veracity][veracity] |[![status][veracity-ci-badge][veracity-ci]] |  ledger cli| forked and maintained |
+| [veracity][veracity] |[![status][veracity-ci-badge]][veracity-ci] |  ledger cli| forked and maintained |
 | [go-merklelog][go-merklelog] | | core ledger format | forked and maintained |
 | [go-merklelog-azure][go-merklelog-azure] | | azure blob storage provider | maintained |
 | [go-merklelog-fs][go-merklelog-fs] | | file system storage provider, pitched at replication and local receipts | maintained |
