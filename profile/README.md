@@ -1,4 +1,6 @@
-# Forestrie is a trust‑minimized digital provenance ledger
+# Forestrie
+
+Forestrie is a trust‑minimized digital provenance ledger
 
 The software was originally created by DataTrails, Inc. as the underlay for their digital provenance platform and released under an MIT license to promote system transparency.
 
