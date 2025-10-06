@@ -25,10 +25,10 @@ Per the [roadmap](./roadmap.md)
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
 | [veracity][veracity] |[![status][veracity-ci-badge]][veracity-ci] |  ledger cli| forked and maintained |
-| [go-merklelog][go-merklelog] | | core ledger format | forked and maintained |
-| [go-merklelog-azure][go-merklelog-azure] | | azure blob storage provider | maintained |
-| [go-merklelog-fs][go-merklelog-fs] | | file system storage provider, pitched at replication and local receipts | maintained |
-| [go-merklelog-provider-testing][go-merklelog-provider-testing]|  | common go lang test facilities for merklelog storage providers | maintained |
+| [go-merklelog][go-merklelog] |[![status][go-merklelog-ci-badge]][go-merklelog-ci] | core ledger format | forked and maintained |
+| [go-merklelog-azure][go-merklelog-azure] |[![status][go-merklelog-azure-ci-badge]][go-merklelog-azure-ci] | azure blob storage provider | maintained |
+| [go-merklelog-fs][go-merklelog-fs] |[![status][go-merklelog-fs-ci-badge]][go-merklelog-fs-ci] | file system storage provider, pitched at replication and local receipts | maintained |
+| [go-merklelog-provider-testing][go-merklelog-provider-testing]| n/a | common go lang test facilities for merklelog storage providers | maintained |
 | [go-datatrails-common][go-datatrails-common]       | | datatrails legacy | working to remove |
 | [go-datatrails-simplehash][go-datatrails-simplehash] | | a datatrails specific pre-image scheme | working to remove |
 | [go-datatrails-serialization][go-datatrails-serialization] | | datatrails specific serialization and pre-image support | working to remove |
@@ -43,3 +43,9 @@ Per the [roadmap](./roadmap.md)
 [go-datatrails-serialization]: https://github.com/datatrails/go-datatrails-serialization
 [veracity-ci-badge]: https://github.com/forestrie/veracity/actions/workflows/ci.yml/badge.svg
 [veracity-ci]: https://github.com/forestrie/veracity/actions/workflows/ci.yml
+[go-merklelog-ci-badge]: https://github.com/forestrie/go-merklelog/actions/workflows/ci.yml/badge.svg
+[go-merklelog-ci]: https://github.com/forestrie/go-merklelog/actions/workflows/ci.yml
+[go-merklelog-fs-ci-badge]: https://github.com/forestrie/go-merklelog-fs/actions/workflows/ci.yml/badge.svg
+[go-merklelog-fs-ci]: https://github.com/forestrie/go-merklelog-fs/actions/workflows/ci.yml
+[go-merklelog-azure-ci-badge]: https://github.com/forestrie/go-merklelog-azure/actions/workflows/ci.yml/badge.svg
+[go-merklelog-azure-ci]: https://github.com/forestrie/go-merklelog-azure/actions/workflows/ci.yml
