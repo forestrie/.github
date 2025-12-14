@@ -11,8 +11,6 @@
 
 ### forest-1
 
-* ![status][forest-1-infra-badge]
-
 [forest-1][forest-1]
 
 | Status  | | |
@@ -24,12 +22,12 @@
 
 
 
-[forest-1-infra]: https://github.com/forestrie/forest-1/actions/workflows/infra.yml
-[forest-1-infra-badge]: https://github.com/forestrie/forest-1/actions/workflows/infra.yml/badge.svg
-[forest-1-flux-sync]: https://github.com/forestrie/forest-1/actions/workflows/flux-sync.yml
-[forest-1-flux-sync-badge]: https://github.com/forestrie/forest-1/actions/workflows/flux-sync.yml/badge.svg
-[forest-1-arbor-flux-auth]: https://github.com/forestrie/forest-1/actions/workflows/setup-arbor-flux-auth.yml
-[forest-1-arbor-flux-auth-badge]: https://github.com/forestrie/forest-1/actions/workflows/setup-arbor-flux-auth.yml/badge.svg
+[forest-1-infra]: https://github.com/forestrie/forest-1/actions/workflows/infra.yaml
+[forest-1-infra-badge]: https://github.com/forestrie/forest-1/actions/workflows/infra.yaml/badge.svg
+[forest-1-flux-sync]: https://github.com/forestrie/forest-1/actions/workflows/flux-sync.yaml
+[forest-1-flux-sync-badge]: https://github.com/forestrie/forest-1/actions/workflows/flux-sync.yaml/badge.svg
+[forest-1-arbor-flux-auth]: https://github.com/forestrie/forest-1/actions/workflows/setup-arbor-flux-auth.yaml
+[forest-1-arbor-flux-auth-badge]: https://github.com/forestrie/forest-1/actions/workflows/setup-arbor-flux-auth.yaml/badge.svg
 
 #### arbor
 
