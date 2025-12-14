@@ -11,8 +11,8 @@
 
 |  | | |
 |:------|:------|------:|
-|[![status][forest-1-infra-badge]][forest-1-infra] | infrastructure | terraform and gitops infra defining and managing the [forest-1][forest-1] cluster |
-|[![status][forest-1-flux-sync-badge]][forest-1-flux-sync] | cluster | cluster automation using flux for [forest-1][forest-1] and client project [arbor-flux][arbor-flux] |
+|[![status][forest-1-infra-badge]][forest-1-infra] | infrastructure | [forest-1][forest-1] terraform and gitops infra defining and managing the cluster |
+|[![status][forest-1-flux-sync-badge]][forest-1-flux-sync] | cluster | [forest-1][forest-1] cluster kubernetes automation using flux for client projects: [arbor-flux][arbor-flux] |
 |[![status][forest-1-arbor-flux-auth-badge]][forest-1-arbor-flux-auth] | gitops cluster authorization |  [forest-1][forest-1] gcp workload identity based github authorization for flux on arbor  |
 
 
