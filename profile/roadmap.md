@@ -1,3 +1,5 @@
+# Roadmap
+
 ## Project vision
 
 1. Be an independent, production‑grade, interoperable transparency ledger.
@@ -6,76 +8,35 @@
    - `draft-ietf-cose-merkle-tree-proofs-16`
 3. Maintain **veracity** as a vendor‑neutral tool for working with Forestrie logs.
 
-### Near‑term feature goals
+## Current focus
 
-1. Split‑view protection: an EVM smart contract acts as the single source of truth for the **verified history of checkpoints** for logs (on‑chain verification of checkpoints/receipts).
-2. Cloud‑vendor‑neutral & distrubuted storage: object storage with optimistic concurrency control as the primary substrate.
-4. Production quality sequencer and attestor services.
+- **IETF SCITT adoption** — demo and tooling supporting the adoption call for the MMR profile draft ([ietf-126-demo](https://github.com/forestrie/ietf-126-demo)).
+- **A reliable production platform** — hardening [canopy](https://github.com/forestrie/canopy) and [arbor](https://github.com/forestrie/arbor) into production‑quality ingestion, sequencer, and attestor services on cloud‑vendor‑neutral object storage.
+- **Split‑view protection, on chain** — [univocity](https://github.com/forestrie/univocity): an EVM smart contract as the single source of truth for the verified history of log checkpoints, proven out on a public network.
+- **Self‑custodied sealing** — [mandate](https://github.com/forestrie/mandate): bring‑your‑own‑key instances with delegated and self‑hosted sealers, so receipts can be signed by keys the log owner controls.
+- **Permissionless network economics** — early designs for attestor accountability, staking, and checkpoint fees.
 
-### Near‑term maintenance goals
+## Ledger format and standards
 
-1. Evolve the log format: hash agility; generically verifiable index entries; simplifications (e.g., constant‑sized peak stack allowing node count from file size). _Note: constant‑sized peak stack is an implementation detail at this time and not an IETF requirement._
-2. Reduce and simplify the implementation and testing surface.
+The Forestrie ledger uses binary‑encoded Merkle Mountain Ranges (MMRs), organized as a linear set of "tiles" — proofs stay local to a single storage object. Receipts and checkpoints are COSE/CBOR, per the IETF drafts:
 
----
+- MMR profile: <https://www.ietf.org/archive/id/draft-bryce-cose-receipts-mmr-profile-00.html>
+- COSE Merkle tree proofs (the registry it profiles): <https://www.ietf.org/archive/id/draft-ietf-cose-merkle-tree-proofs-16.html>
+- SCITT reference architecture (which references both): <https://www.ietf.org/archive/id/draft-ietf-scitt-architecture-20.html>
 
-## Ledger data format
-
-### Forestrie ledger format, public documentation, and standards
-
-The Forestrie ledger uses a system of binary‑encoded Merkle Mountain Ranges (MMRs). A single log is a single MMR, organized as a linear set of “tiles.” A Forestrie system may maintain many logs.
+Format documentation:
 
 - Navigating the format: <https://docs.datatrails.ai/developers/developer-patterns/navigating-merklelogs/>
-- Peak stack / offset tables: <https://docs.datatrails.ai/developers/developer-patterns/massif-blob-offset-tables/> — ensures producing a proof for a single element never needs to reference adjacent tiles.
+- Peak stack / offset tables: <https://docs.datatrails.ai/developers/developer-patterns/massif-blob-offset-tables/>
 
-> Forestrie tiles are organised linearly, simplifying navigation and keeping proofs local to a single storage object.
+## Further reading
 
-### Receipts and standards
-
-- Receipts and checkpoints: are described by the IETF Internet‑Draft: <https://www.ietf.org/archive/id/draft-bryce-cose-receipts-mmr-profile-00.html>
-- The above is a profile of: <https://www.ietf.org/archive/id/draft-ietf-cose-merkle-tree-proofs-16.html>, which establishes registries for defining receipts for multiple, interoperable transparency systems.
-- These IETF documents are referenced by the SCITT reference architecture: <https://www.ietf.org/archive/id/draft-ietf-scitt-architecture-20.html>
-
----
-
-## Veracity: a tool for working with Forestrie logs
-
-veracity is used to maintain independent, verifiable replicas of the ledger: <https://docs.datatrails.ai/developers/developer-patterns/3rdparty-verification/>
-
-It also provides offline verification, proof (receipt) generation, and various ledger discovery and maintenance tooling.
-
-Logs are attested by a single identity (which may gate access to the log), but in all other respects all log replicas are equal once data is attested.
-
-Attestation is accomplished by signing COSE/CBOR checkpoints based on consistency proofs whose format is described in the `draft-bryce-cose-receipts-mmr-profile-00` document.
-
----
-
-## Comparison with Certificate Transparency and Sunlight tiles
-
-- Discussion relating this system to TLS Certificate Transparency and Sunlight tiles:  
-  <https://github.com/robinbryce/mmriver-supplimental/blob/main/if-you-go-down-to-the-woods-today.md>
-- Specific equivalences in the Merkle tree formats (1‑D↔2‑D mapping):  
-  <https://github.com/robinbryce/draft-bryce-cose-merkle-mountain-range-proofs/blob/main/1d-2d-tree-equivalences.md>
-
----
-
-## Implementations and algorithms
-
-- Python reference algorithms (MMR/receipt primitives + tests):  
-  <https://github.com/robinbryce/draft-bryce-cose-merkle-mountain-range-proofs/blob/main/algorithms.py>
-- TypeScript minimal implementation highlighting practical format differences vs CT Sunlight tiles:  
-  <https://github.com/robinbryce/mmriver-tiles-ts/blob/main/README.md>
-- Go core MMR algorithms for this project (production‑oriented):  
-  <https://github.com/robinbryce/go-datatrails-merklelog/tree/main/> (see `mmr` package)
-
-The authoritative list of repositories and active branches for this project is here (tags are `@ref`s, branches are `^ref`s):  
-<https://github.com/forestrie/merklelog-ci/blob/main/veracity/.env.bootstrap>
-
----
+- Relation to Certificate Transparency and Sunlight tiles: <https://github.com/robinbryce/mmriver-supplimental/blob/main/if-you-go-down-to-the-woods-today.md>
+- 1‑D↔2‑D Merkle tree equivalences: <https://github.com/robinbryce/draft-bryce-cose-merkle-mountain-range-proofs/blob/main/1d-2d-tree-equivalences.md>
+- Python reference algorithms: <https://github.com/robinbryce/draft-bryce-cose-merkle-mountain-range-proofs/blob/main/algorithms.py>
+- TypeScript minimal implementation: <https://github.com/robinbryce/mmriver-tiles-ts/blob/main/README.md>
 
 ## Tags and branches
 
-The authoritative list of repositories and active branches for this project is this file:  
+The authoritative list of repositories and active branches for this project (tags are `@ref`s, branches are `^ref`s):
 <https://github.com/forestrie/merklelog-ci/blob/main/veracity/.env.bootstrap>
-
-

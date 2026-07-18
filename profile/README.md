@@ -10,8 +10,17 @@ This project (Forestrie) is an independent effort to continue the evolution of s
 
 Per the [roadmap](./roadmap.md)
 
-## Status
+## Status: Forestrie platform
 
+| Repository                |  | | |
+|:--------------------------|:------|:------|------:|
+| [canopy][canopy] |[![status][canopy-ci-badge]][canopy-ci] | ingestion with a SCITT/SCRAPI personality | active development |
+| [arbor][arbor] |[![status][arbor-ci-badge]][arbor-ci] | core platform services | active development |
+| [univocity][univocity] |[![status][univocity-ci-badge]][univocity-ci] | split-view protection via on-chain checkpoint verification | active development |
+| [mandate][mandate] |[![status][mandate-ci-badge]][mandate-ci] | BYOK instance management: operator console, delegation, provisioning | active development |
+| [forestrie-cli][forestrie-cli] |[![status][forestrie-cli-ci-badge]][forestrie-cli-ci] | single-binary participant CLI | active development |
+
+## Status: Ledger tooling & packages
 
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
@@ -22,9 +31,26 @@ Per the [roadmap](./roadmap.md)
 
 
 See also:
+- [ietf-126-demo][ietf-126-demo] — live forestrie walkthrough for the IETF SCITT WG
 - [ops](./ops.md)
 - [extras](./extras.md)
 
+[canopy]: https://github.com/forestrie/canopy
+[arbor]: https://github.com/forestrie/arbor
+[univocity]: https://github.com/forestrie/univocity
+[mandate]: https://github.com/forestrie/mandate
+[forestrie-cli]: https://github.com/forestrie/forestrie-cli
+[ietf-126-demo]: https://github.com/forestrie/ietf-126-demo
+[canopy-ci-badge]: https://github.com/forestrie/canopy/actions/workflows/ci.yml/badge.svg
+[canopy-ci]: https://github.com/forestrie/canopy/actions/workflows/ci.yml
+[arbor-ci-badge]: https://github.com/forestrie/arbor/actions/workflows/go-test.yml/badge.svg
+[arbor-ci]: https://github.com/forestrie/arbor/actions/workflows/go-test.yml
+[univocity-ci-badge]: https://github.com/forestrie/univocity/actions/workflows/ci.yml/badge.svg
+[univocity-ci]: https://github.com/forestrie/univocity/actions/workflows/ci.yml
+[mandate-ci-badge]: https://github.com/forestrie/mandate/actions/workflows/test.yml/badge.svg
+[mandate-ci]: https://github.com/forestrie/mandate/actions/workflows/test.yml
+[forestrie-cli-ci-badge]: https://github.com/forestrie/forestrie-cli/actions/workflows/ci.yml/badge.svg
+[forestrie-cli-ci]: https://github.com/forestrie/forestrie-cli/actions/workflows/ci.yml
 [veracity]: https://github.com/forestrie/veracity
 [go-merklelog]: https://github.com/forestrie/go-merklelog
 [go-merklelog-azure]: https://github.com/forestrie/go-merklelog-azure
