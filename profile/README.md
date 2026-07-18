@@ -10,7 +10,18 @@ This project (Forestrie) is an independent effort to continue the evolution of s
 
 See the [architecture](./architecture.md) for how the core elements fit together, and the [roadmap](./roadmap.md) for where it is going.
 
-## Status: Forestrie platform
+## Status: Forestrie
+
+| Forestrie | latest (from the last qualified Lane A T3) |
+|:----------|:-------------------------------------------|
+| platform health | [![status][forestrie-status-badge]][forestrie-status] |
+| univocity deploy | [v0.1.8][univocity-deploy] |
+| lane A manifest | [release-manifest][lane-a-manifest] |
+| lane B manifest | [lane-b.jsonc][lane-b-manifest] |
+
+The platform badge is green when the public per-lane SCRAPI endpoints
+(scitt-configuration, register-grant, onboard — lanes a &amp; b) are available and
+the forest-2 external-dns / cert-manager machinery is healthy.
 
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
@@ -34,6 +45,12 @@ See also:
 - [ietf-126-demo][ietf-126-demo] — live forestrie walkthrough for the IETF SCITT WG
 - [ops](./ops.md)
 - [extras](./extras.md)
+
+[forestrie-status]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml
+[forestrie-status-badge]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml/badge.svg
+[univocity-deploy]: https://github.com/forestrie/univocity/releases/tag/v0.1.8
+[lane-a-manifest]: https://github.com/forestrie/release-orchestrator/blob/main/manifests/releases/29648215010/release-manifest.jsonc
+[lane-b-manifest]: https://github.com/forestrie/system-testing/blob/main/manifests/lane-b.jsonc
 
 [canopy]: https://github.com/forestrie/canopy
 [arbor]: https://github.com/forestrie/arbor
