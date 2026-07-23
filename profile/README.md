@@ -14,14 +14,26 @@ See the [architecture](./architecture.md) for how the core elements fit together
 
 | Forestrie | latest (from the last qualified Lane A T3) |
 |:----------|:-------------------------------------------|
-| platform health | [![status][forestrie-status-badge]][forestrie-status] |
+| endpoints (liveness) | [![status][forestrie-status-badge]][forestrie-status] |
+| Lane A qualification (dev T3) | [![status][qualify-dev-badge]][qualify-dev] |
+| Lane B qualification (stage T3) | [![status][qualify-stage-badge]][qualify-stage] |
 | univocity deploy | [v0.1.8][univocity-deploy] |
 | lane A manifest | [release-manifest][lane-a-manifest] |
 | lane B manifest | [lane-b.jsonc][lane-b-manifest] |
 
-The platform badge is green when the public per-lane SCRAPI endpoints
-(scitt-configuration, register-grant, onboard — lanes a &amp; b) are available and
-the forest-2 external-dns / cert-manager machinery is healthy.
+The **endpoints (liveness)** badge is a reachability probe, not a test gate. It
+is green when the public per-lane SCRAPI endpoints (scitt-configuration,
+register-grant, onboard — lanes a &amp; b) are available and the forest-2
+external-dns / cert-manager machinery is healthy. It does **not** run the
+system (T3) tests, so it cannot go red on a test regression — a green liveness
+badge is not a statement that the platform is qualifying.
+
+The **qualification** badges track the end-to-end system (T3) suites that gate
+promotion, each reproducing the wire manifest (CLI/service pins per ADR-0054)
+from the latest qualified release-manifest and running orchestrator-system-e2e:
+Lane A via release-orchestrator qualify-dev, Lane B via qualify-stage. A red
+qualification badge means the lane is failing its T3 gate even while its
+endpoints stay live.
 
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
@@ -48,6 +60,10 @@ See also:
 
 [forestrie-status]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml
 [forestrie-status-badge]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml/badge.svg
+[qualify-dev]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-dev.yml
+[qualify-dev-badge]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-dev.yml/badge.svg
+[qualify-stage]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-stage.yml
+[qualify-stage-badge]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-stage.yml/badge.svg
 [univocity-deploy]: https://github.com/forestrie/univocity/releases/tag/v0.1.8
 [lane-a-manifest]: https://github.com/forestrie/release-orchestrator/blob/main/manifests/releases/29648215010/release-manifest.jsonc
 [lane-b-manifest]: https://github.com/forestrie/system-testing/blob/main/manifests/lane-b.jsonc
