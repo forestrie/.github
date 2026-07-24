@@ -35,6 +35,18 @@ Lane A via release-orchestrator qualify-dev, Lane B via qualify-stage. A red
 qualification badge means the lane is failing its T3 gate even while its
 endpoints stay live.
 
+A qualification badge only reports on runs that have happened. A workflow with
+no runs at all renders **no status** — grey, not red — so a lane whose
+qualification has never executed reads as untroubled beside one that is
+genuinely passing. Lane B was in exactly that state until qualify-stage first
+ran on 2026-07-24, while its T3 suite was in fact failing. Treat a badge that
+is neither green nor red as *unknown*, and check the workflow has runs.
+
+Both qualification workflows check the lane's full declared spec inventory
+(release-orchestrator `config/t3-inventory.json`), not just the GitHub Actions
+conclusion: a spec that silently `test.skip`s — because a secret is unset or an
+env gate is unwired — fails the lane rather than passing it.
+
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
 | [canopy][canopy] |[![status][canopy-ci-badge]][canopy-ci] | ingestion with a SCITT/SCRAPI personality | active development |
