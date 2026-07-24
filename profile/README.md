@@ -14,14 +14,41 @@ See the [architecture](./architecture.md) for how the core elements fit together
 
 | Forestrie | latest (from the last qualified Lane A T3) |
 |:----------|:-------------------------------------------|
-| platform health | [![status][forestrie-status-badge]][forestrie-status] |
+| endpoints (liveness) | [![status][forestrie-status-badge]][forestrie-status] |
+| Lane A qualification (dev T3) | [![status][qualify-dev-badge]][qualify-dev] |
+| Lane B qualification (stage T3) | [![status][qualify-stage-badge]][qualify-stage] |
 | univocity deploy | [v0.1.8][univocity-deploy] |
 | lane A manifest | [release-manifest][lane-a-manifest] |
 | lane B manifest | [lane-b.jsonc][lane-b-manifest] |
 
-The platform badge is green when the public per-lane SCRAPI endpoints
-(scitt-configuration, register-grant, onboard — lanes a &amp; b) are available and
-the forest-2 external-dns / cert-manager machinery is healthy.
+The **endpoints (liveness)** badge is a reachability probe, not a test gate. It
+is green when the public per-lane SCRAPI endpoints (scitt-configuration,
+register-grant, onboard — lanes a &amp; b) are available and the forest-2
+external-dns / cert-manager machinery is healthy. It does **not** run the
+system (T3) tests, so it cannot go red on a test regression — a green liveness
+badge is not a statement that the platform is qualifying.
+
+The **qualification** badges track the end-to-end system (T3) suites that gate
+promotion, each reproducing the wire manifest (CLI/service pins per ADR-0054)
+from the latest qualified release-manifest and running orchestrator-system-e2e:
+Lane A via release-orchestrator qualify-dev, Lane B via qualify-stage. A red
+qualification badge means the lane is failing its T3 gate even while its
+endpoints stay live.
+
+All three badges check the lane's full declared spec inventory
+(release-orchestrator `config/t3-inventory.json`) rather than just the GitHub
+Actions conclusion: a spec that silently `test.skip`s — because a secret is
+unset or an env gate is unwired — fails the lane instead of passing it.
+
+**Silence is red, not green.** The three source workflows live in private
+repositories (`forest-1`, `release-orchestrator`), whose `badge.svg` GitHub
+serves only to viewers who can see the repo — anonymous visitors got a broken
+image. Each badge above is therefore a public mirror in this repository:
+the private workflow reports its verdict by `repository_dispatch`, and the
+mirror also ticks on a schedule and **fails when no verdict has arrived within
+the source's expected interval**. So a badge that stops being updated goes red
+rather than holding its last colour, and a lane that has never reported is red
+rather than grey. Grey previously hid a Lane B whose T3 suite was failing.
 
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
@@ -46,8 +73,12 @@ See also:
 - [ops](./ops.md)
 - [extras](./extras.md)
 
-[forestrie-status]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml
-[forestrie-status-badge]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml/badge.svg
+[forestrie-status]: https://github.com/forestrie/.github/actions/workflows/status-endpoints.yml
+[forestrie-status-badge]: https://github.com/forestrie/.github/actions/workflows/status-endpoints.yml/badge.svg
+[qualify-dev]: https://github.com/forestrie/.github/actions/workflows/status-lane-a.yml
+[qualify-dev-badge]: https://github.com/forestrie/.github/actions/workflows/status-lane-a.yml/badge.svg
+[qualify-stage]: https://github.com/forestrie/.github/actions/workflows/status-lane-b.yml
+[qualify-stage-badge]: https://github.com/forestrie/.github/actions/workflows/status-lane-b.yml/badge.svg
 [univocity-deploy]: https://github.com/forestrie/univocity/releases/tag/v0.1.8
 [lane-a-manifest]: https://github.com/forestrie/release-orchestrator/blob/main/manifests/releases/29648215010/release-manifest.jsonc
 [lane-b-manifest]: https://github.com/forestrie/system-testing/blob/main/manifests/lane-b.jsonc

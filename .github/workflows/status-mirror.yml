@@ -1,0 +1,67 @@
+name: status-mirror
+
+# Shared body for the public Status: Forestrie badges (plan-2607-40 slice 05).
+#
+# Each badge needs its OWN workflow file — badge.svg is per-workflow — so the
+# callers are thin wrappers that differ only in their triggers and inputs. All
+# the behaviour lives here and in scripts/status-mirror.sh.
+
+on:
+  workflow_call:
+    inputs:
+      label:
+        description: Human name for the badge, used in logs and the run summary.
+        type: string
+        required: true
+      source:
+        description: The private repo + workflow whose verdict this mirrors.
+        type: string
+        required: true
+      workflow_file:
+        description: Calling workflow's own filename, for the freshness lookup.
+        type: string
+        required: true
+      max_age_hours:
+        description: Fail if the newest reported verdict is older than this.
+        type: number
+        required: true
+      dispatched:
+        description: True when this run was triggered by the source's report.
+        type: boolean
+        required: true
+      reported_conclusion:
+        type: string
+        required: false
+        default: ""
+      reported_run_url:
+        type: string
+        required: false
+        default: ""
+      reported_detail:
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  mirror:
+    name: ${{ inputs.label }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ${{ inputs.dispatched && 'Report verdict' || 'Verify freshness' }}
+        env:
+          MODE: ${{ inputs.dispatched && 'report' || 'verify' }}
+          LABEL: ${{ inputs.label }}
+          SOURCE: ${{ inputs.source }}
+          WORKFLOW_FILE: ${{ inputs.workflow_file }}
+          MAX_AGE_HOURS: ${{ inputs.max_age_hours }}
+          REPORTED_CONCLUSION: ${{ inputs.reported_conclusion }}
+          REPORTED_RUN_URL: ${{ inputs.reported_run_url }}
+          REPORTED_DETAIL: ${{ inputs.reported_detail }}
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/status-mirror.sh
