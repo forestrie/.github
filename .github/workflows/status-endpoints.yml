@@ -1,0 +1,38 @@
+name: endpoints (liveness)
+
+# Public mirror of forestrie/forest-1 forestrie-status.yaml, which is private
+# and so cannot be badged on the public org profile. See scripts/status-mirror.sh.
+#
+# Reachability only: green means the public per-lane SCRAPI endpoints are
+# available and the forest-2 external-dns / cert-manager machinery is healthy.
+# It runs no system tests, so it cannot go red on a test regression — the
+# qualification badges are what track that.
+
+on:
+  repository_dispatch:
+    types: [endpoints-liveness]
+  # Staleness tick. The source runs every 6h, so a report older than 8h means
+  # reporting has stopped and the badge must go red rather than hold its colour.
+  schedule:
+    - cron: "13 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  status:
+    uses: ./.github/workflows/status-mirror.yml
+    permissions:
+      contents: read
+      actions: read
+    with:
+      label: endpoints (liveness)
+      source: forestrie/forest-1 forestrie-status.yaml
+      workflow_file: status-endpoints.yml
+      max_age_hours: 8
+      dispatched: ${{ github.event_name == 'repository_dispatch' }}
+      reported_conclusion: ${{ github.event.client_payload.conclusion }}
+      reported_run_url: ${{ github.event.client_payload.run_url }}
+      reported_detail: ${{ github.event.client_payload.detail }}

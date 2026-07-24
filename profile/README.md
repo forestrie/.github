@@ -35,17 +35,20 @@ Lane A via release-orchestrator qualify-dev, Lane B via qualify-stage. A red
 qualification badge means the lane is failing its T3 gate even while its
 endpoints stay live.
 
-A qualification badge only reports on runs that have happened. A workflow with
-no runs at all renders **no status** — grey, not red — so a lane whose
-qualification has never executed reads as untroubled beside one that is
-genuinely passing. Lane B was in exactly that state until qualify-stage first
-ran on 2026-07-24, while its T3 suite was in fact failing. Treat a badge that
-is neither green nor red as *unknown*, and check the workflow has runs.
+All three badges check the lane's full declared spec inventory
+(release-orchestrator `config/t3-inventory.json`) rather than just the GitHub
+Actions conclusion: a spec that silently `test.skip`s — because a secret is
+unset or an env gate is unwired — fails the lane instead of passing it.
 
-Both qualification workflows check the lane's full declared spec inventory
-(release-orchestrator `config/t3-inventory.json`), not just the GitHub Actions
-conclusion: a spec that silently `test.skip`s — because a secret is unset or an
-env gate is unwired — fails the lane rather than passing it.
+**Silence is red, not green.** The three source workflows live in private
+repositories (`forest-1`, `release-orchestrator`), whose `badge.svg` GitHub
+serves only to viewers who can see the repo — anonymous visitors got a broken
+image. Each badge above is therefore a public mirror in this repository:
+the private workflow reports its verdict by `repository_dispatch`, and the
+mirror also ticks on a schedule and **fails when no verdict has arrived within
+the source's expected interval**. So a badge that stops being updated goes red
+rather than holding its last colour, and a lane that has never reported is red
+rather than grey. Grey previously hid a Lane B whose T3 suite was failing.
 
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
@@ -70,12 +73,12 @@ See also:
 - [ops](./ops.md)
 - [extras](./extras.md)
 
-[forestrie-status]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml
-[forestrie-status-badge]: https://github.com/forestrie/forest-1/actions/workflows/forestrie-status.yaml/badge.svg
-[qualify-dev]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-dev.yml
-[qualify-dev-badge]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-dev.yml/badge.svg
-[qualify-stage]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-stage.yml
-[qualify-stage-badge]: https://github.com/forestrie/release-orchestrator/actions/workflows/qualify-stage.yml/badge.svg
+[forestrie-status]: https://github.com/forestrie/.github/actions/workflows/status-endpoints.yml
+[forestrie-status-badge]: https://github.com/forestrie/.github/actions/workflows/status-endpoints.yml/badge.svg
+[qualify-dev]: https://github.com/forestrie/.github/actions/workflows/status-lane-a.yml
+[qualify-dev-badge]: https://github.com/forestrie/.github/actions/workflows/status-lane-a.yml/badge.svg
+[qualify-stage]: https://github.com/forestrie/.github/actions/workflows/status-lane-b.yml
+[qualify-stage-badge]: https://github.com/forestrie/.github/actions/workflows/status-lane-b.yml/badge.svg
 [univocity-deploy]: https://github.com/forestrie/univocity/releases/tag/v0.1.8
 [lane-a-manifest]: https://github.com/forestrie/release-orchestrator/blob/main/manifests/releases/29648215010/release-manifest.jsonc
 [lane-b-manifest]: https://github.com/forestrie/system-testing/blob/main/manifests/lane-b.jsonc

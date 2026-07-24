@@ -1,0 +1,39 @@
+name: Lane A qualification
+
+# Public mirror of forestrie/release-orchestrator qualify-dev.yml, which is
+# private and so cannot be badged on the public org profile.
+# See scripts/status-mirror.sh.
+#
+# Green means Lane A reproduced the wire manifest from the latest qualified
+# release-manifest (ADR-0054 pins) and its system (T3) suite matched the
+# declared spec inventory — every must-pass spec passed, and nothing skipped
+# that was not declared as an expected skip.
+
+on:
+  repository_dispatch:
+    types: [lane-a-qualification]
+  # Staleness tick. The source is a daily 05:30 schedule, so 26h allows one
+  # missed run's worth of slack before the badge goes red for silence.
+  schedule:
+    - cron: "27 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  status:
+    uses: ./.github/workflows/status-mirror.yml
+    permissions:
+      contents: read
+      actions: read
+    with:
+      label: Lane A qualification (dev T3)
+      source: forestrie/release-orchestrator qualify-dev.yml
+      workflow_file: status-lane-a.yml
+      max_age_hours: 26
+      dispatched: ${{ github.event_name == 'repository_dispatch' }}
+      reported_conclusion: ${{ github.event.client_payload.conclusion }}
+      reported_run_url: ${{ github.event.client_payload.run_url }}
+      reported_detail: ${{ github.event.client_payload.detail }}
