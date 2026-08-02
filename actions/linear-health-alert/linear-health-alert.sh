@@ -27,7 +27,7 @@
 # shellcheck disable=SC2016 # GraphQL documents are single-quoted on purpose: $team, $marker etc. are GraphQL variables, not shell ones
 set -euo pipefail
 
-: "${LINEAR_API_KEY:?LINEAR_API_KEY is not set — see docs/ci-policy.md for the org secret and its repo scoping}"
+: "${LINEAR_API_KEY:?LINEAR_API_KEY is empty. If this repo is PRIVATE, an org secret will not reach it on the free plan no matter how it is scoped — set a repo-level secret instead. See docs/ci-policy.md}"
 : "${ALERT_KEY:?ALERT_KEY is required}"
 : "${STATE:?STATE must be 'failing' or 'green'}"
 : "${TEAM_KEY:=FOR}"
