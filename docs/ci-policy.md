@@ -168,7 +168,26 @@ One issue per `alert_key`, edited rather than duplicated while the failure
 persists, closed automatically when it recovers.
 
 `LINEAR_API_KEY` is an organisation Actions secret, scoped to the repositories
-that adopt the action.
+that adopt the action — **but only public repositories can read it.**
+
+On GitHub's **free** plan, organisation secrets are available to public
+repositories only. The API does not say so: `PUT
+/orgs/{org}/actions/secrets/{name}/repositories/{id}` succeeds for a private
+repo and lists it afterwards, so the scoping looks correct while
+`secrets.LINEAR_API_KEY` resolves to an empty string in every run. The
+adopting workflow then fails on the missing credential, which is the right
+behaviour and the wrong diagnosis.
+
+**A private repo needs a repo-level secret:**
+
+```sh
+gh secret set LINEAR_API_KEY --repo forestrie/<repo> --body "$LINEAR_API_KEY"
+```
+
+This cost two failed release-orchestrator runs on 2026-08-02 before the plan
+was identified, and it was invisible until then because every repo the action
+had been proven on — canopy, univocity-tools — is public. Check the
+repository's visibility before assuming the grant is the problem.
 
 **Known gap:** issue-lifecycle alerting cannot see absence. A workflow that
 stops running entirely raises nothing. The public status badges in this
