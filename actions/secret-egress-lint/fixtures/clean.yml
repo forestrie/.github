@@ -1,0 +1,27 @@
+# EXPECT: no findings at all.
+#
+# The remediation pattern (canopy#211): the consumer reads the env-scoped secret
+# at point of use. Nothing secret-derived is ever mapped into `outputs:`, so
+# there is nothing for GitHub to drop and nothing to explain later.
+name: clean
+
+on: workflow_dispatch
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      address: ${{ steps.pin.outputs.address }}
+    steps:
+      - id: pin
+        run: echo "address=${{ vars.E2E_UNIVOCITY_ADDR }}" >> "$GITHUB_OUTPUT"
+
+  tests:
+    needs: resolve
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - env:
+          ADDRESS: ${{ needs.resolve.outputs.address }}
+          BOOTSTRAP_PEM: ${{ secrets.E2E_UNIVOCITY_ES256_BOOTSTRAP_PEM }}
+        run: test -n "$ADDRESS" && test -n "$BOOTSTRAP_PEM"

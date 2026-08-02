@@ -1,0 +1,25 @@
+# EXPECT: R2 violation on output `pem`.
+#
+# The reusable-workflow form: the job's outputs never leave this file by
+# themselves, but `workflow_call.outputs` re-export them to every caller. The
+# egress is identical, one boundary further out — and callers are the least
+# likely place anyone looks when the value arrives empty.
+name: true positive (workflow_call re-export)
+
+on:
+  workflow_call:
+    outputs:
+      pem:
+        description: Bootstrap PEM for the caller's tests job.
+        value: ${{ jobs.resolve.outputs.pem }}
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      pem: ${{ steps.pin.outputs.pem }}
+    steps:
+      - id: pin
+        env:
+          BOOTSTRAP_PEM: ${{ secrets.E2E_UNIVOCITY_ES256_BOOTSTRAP_PEM }}
+        run: echo "pem=$BOOTSTRAP_PEM" >> "$GITHUB_OUTPUT"
