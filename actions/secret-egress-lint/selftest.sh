@@ -24,8 +24,15 @@ expect() { # expect <label> <exit-code> <file...> -- <grep-pattern>...
   shift
   pats=("$@")
 
-  local out status
-  out=$($SCAN "${files[@]}" 2>&1) && status=0 || status=$?
+  # The scanner splits its report: annotations to stdout, the table to
+  # GITHUB_STEP_SUMMARY when Actions sets it. Assert over BOTH — running these
+  # locally, where the variable is unset, would otherwise pass on assertions
+  # that can never hold in CI.
+  local out status summary
+  summary="$(mktemp)"
+  out=$(GITHUB_STEP_SUMMARY="$summary" $SCAN "${files[@]}" 2>&1) && status=0 || status=$?
+  out="${out}"$'\n'"$(cat "$summary")"
+  rm -f "$summary"
 
   if [ "$status" -ne "$want" ]; then
     echo "FAIL ${label}: exit ${status}, expected ${want}"
