@@ -1,0 +1,34 @@
+name: Secret egress lint
+description: >-
+  Fail a workflow whose jobs export secret-derived data through job outputs —
+  the class GitHub drops silently, leaving the consumer an empty string.
+
+inputs:
+  paths:
+    description: >-
+      Space-separated files or directories to scan. Scanning nothing is a
+      failure, not a pass.
+    required: false
+    default: .github/workflows
+
+runs:
+  using: composite
+  steps:
+    # PyYAML is present on the hosted runner images, so the install is a
+    # fallback rather than the normal path. It is allowed to be quiet because
+    # the very next step imports yaml and exits 1 if it is missing — the soft
+    # path has an assertion immediately behind it.
+    - shell: bash
+      run: |
+        set -euo pipefail
+        python3 -c 'import yaml' 2>/dev/null && exit 0
+        python3 -m pip install --quiet --disable-pip-version-check pyyaml \
+          || python3 -m pip install --quiet --disable-pip-version-check --break-system-packages pyyaml
+
+    - shell: bash
+      env:
+        SCAN_PATHS: ${{ inputs.paths }}
+      run: |
+        set -euo pipefail
+        # shellcheck disable=SC2086 # paths is a deliberate space-separated list
+        python3 "${{ github.action_path }}/secret-egress-lint.py" $SCAN_PATHS

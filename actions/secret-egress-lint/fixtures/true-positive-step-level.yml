@@ -1,0 +1,19 @@
+# EXPECT: R1 violation in job `build`.
+#
+# The same class with step-level env. Flagged until someone looks at it and
+# either fixes it or annotates it — the scanner cannot tell a token used to call
+# an API from a token about to be written into an output.
+name: true positive (step-level env)
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - id: meta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "tag=$(gh release view --json tagName -q .tagName)" >> "$GITHUB_OUTPUT"

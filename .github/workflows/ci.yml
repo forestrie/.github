@@ -1,0 +1,45 @@
+name: CI
+
+# The reusable actions in this repository are consumed by every other forestrie
+# repo, so a break here breaks the estate silently — the caller's step just
+# starts failing for reasons that are not in the caller's diff. They get tested
+# where they live.
+#
+# The Linear alerter's own lifecycle test is deliberately NOT here: it writes to
+# the real Linear workspace, so it runs on demand
+# (`actions/linear-health-alert/selftest.sh`) rather than on every push.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  actions:
+    name: Reusable actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: shellcheck
+        run: shellcheck scripts/*.sh actions/*/*.sh
+
+      - name: actionlint
+        run: |
+          set -euo pipefail
+          bash <(curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash) 1.7.12
+          ./actionlint -color
+
+      - name: secret-egress-lint fixtures
+        run: bash actions/secret-egress-lint/selftest.sh
+
+      - name: auto-tag behaviour
+        run: bash actions/auto-tag/selftest.sh
+
+      # Dogfooding, and the reason the lint fails on an empty target: if this
+      # ever scans nothing it must say so rather than report a clean estate.
+      - name: secret-egress-lint over this repository
+        uses: ./actions/secret-egress-lint

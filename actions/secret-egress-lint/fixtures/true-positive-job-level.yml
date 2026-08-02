@@ -1,0 +1,29 @@
+# EXPECT: R1 violation in job `resolve`.
+#
+# The canopy#211 shape, reduced: job-LEVEL env holds the secret, a step writes
+# it to GITHUB_OUTPUT, and the job's `outputs:` map re-exports it. GitHub drops
+# the output because it contains a registered secret value, so `tests` reads an
+# empty string and fails somewhere else entirely. A step-granular scanner sees
+# nothing here — the secret and the output mapping are not in the same step.
+name: true positive (job-level env)
+
+on: workflow_dispatch
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    env:
+      BOOTSTRAP_PEM: ${{ secrets.E2E_UNIVOCITY_ES256_BOOTSTRAP_PEM }}
+    outputs:
+      pem: ${{ steps.pin.outputs.pem }}
+    steps:
+      - id: pin
+        run: echo "pem=$BOOTSTRAP_PEM" >> "$GITHUB_OUTPUT"
+
+  tests:
+    needs: resolve
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          PEM: ${{ needs.resolve.outputs.pem }}
+        run: test -n "$PEM"

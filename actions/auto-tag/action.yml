@@ -1,0 +1,49 @@
+name: Auto tag
+description: >-
+  Push the release tag a merge implies — the next service patch tag, or a
+  published package's tag when its package.json version changed.
+
+inputs:
+  mode:
+    description: >-
+      service = cut the next vX.Y.Z on this merge.
+      packages = tag every declared package at its current package.json version.
+    required: true
+  token:
+    description: >-
+      Token used to create the tag ref. MUST NOT be the default GITHUB_TOKEN:
+      refs it creates trigger no workflow runs, so the tag would appear and
+      nothing would publish. Use a GitHub App installation token or a PAT.
+    required: true
+  tag_prefix:
+    description: "Service tag prefix (service mode)."
+    required: false
+    default: v
+  skip_marker:
+    description: >-
+      Marker in the merge commit message that suppresses the service tag.
+    required: false
+    default: "[no-release]"
+  config:
+    description: >-
+      Declared package list (packages mode): {"packages":[{"dir":…,"tag_prefix":…}]}.
+    required: false
+    default: .github/auto-tag-packages.json
+
+outputs:
+  tags:
+    description: Comma-separated list of tags this run pushed (empty when none).
+    value: ${{ steps.tag.outputs.tags }}
+
+runs:
+  using: composite
+  steps:
+    - id: tag
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        MODE: ${{ inputs.mode }}
+        TAG_PREFIX: ${{ inputs.tag_prefix }}
+        SKIP_MARKER: ${{ inputs.skip_marker }}
+        CONFIG: ${{ inputs.config }}
+      run: bash "${{ github.action_path }}/auto-tag.sh"

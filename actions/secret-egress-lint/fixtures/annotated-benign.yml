@@ -1,0 +1,20 @@
+# EXPECT: no violation; one annotated exception, reason surfaced.
+#
+# Same shape as true-positive-step-level.yml, triaged: the secret is a token
+# used to CALL an API, and the output carries the tag name the call returned —
+# not the token, nor anything derived from it.
+name: annotated benign
+
+on: workflow_dispatch
+
+jobs:
+  # secret-egress-ok: GH_TOKEN authenticates the lookup; the output is the tag name it returned, not secret-derived
+  release-meta:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - id: meta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "tag=$(gh release view --json tagName -q .tagName)" >> "$GITHUB_OUTPUT"

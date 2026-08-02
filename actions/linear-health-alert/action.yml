@@ -1,0 +1,77 @@
+name: Linear health alert
+description: >-
+  Raise, update and auto-resolve a single Linear issue per alert_key, so a
+  scheduled health workflow going red is owned and visible within one cycle.
+
+inputs:
+  alert_key:
+    description: >-
+      Stable dedupe identity for the thing being watched (e.g. metering-canary,
+      qualify-dev-frontier). One key per workflow — a key claimed by another
+      workflow is a hard error, not a merge.
+    required: true
+  state:
+    description: "failing (raise/update) or green (resolve)."
+    required: true
+  title:
+    description: Issue title. Required when state=failing.
+    required: false
+    default: ""
+  body_md:
+    description: >-
+      Markdown body describing the failure — what broke, and where possible the
+      suspect. Changes to this text raise a comment on the existing issue; the
+      run link on its own does not.
+    required: false
+    default: ""
+  run_url:
+    description: Link to the run reporting this state. Defaults to the current run.
+    required: false
+    default: ""
+  team:
+    description: Linear team key the alert issues belong to.
+    required: false
+    default: FOR
+  project:
+    description: Optional Linear project name to file new alerts under.
+    required: false
+    default: ""
+  labels:
+    description: >-
+      Optional comma-separated Linear label names applied on creation. An
+      unknown label fails the step rather than being dropped.
+    required: false
+    default: ""
+  linear_api_key:
+    description: >-
+      Linear personal API key. Passed explicitly because composite actions
+      cannot read the caller's secrets. See docs/ci-policy.md.
+    required: true
+
+outputs:
+  action:
+    description: One of created, updated, unchanged, resolved, noop.
+    value: ${{ steps.alert.outputs.action }}
+  issue_identifier:
+    description: Linear identifier of the alert issue (e.g. FOR-528), when one exists.
+    value: ${{ steps.alert.outputs.issue_identifier }}
+  issue_url:
+    description: URL of the alert issue, when one exists.
+    value: ${{ steps.alert.outputs.issue_url }}
+
+runs:
+  using: composite
+  steps:
+    - id: alert
+      shell: bash
+      env:
+        LINEAR_API_KEY: ${{ inputs.linear_api_key }}
+        ALERT_KEY: ${{ inputs.alert_key }}
+        STATE: ${{ inputs.state }}
+        TITLE: ${{ inputs.title }}
+        BODY_MD: ${{ inputs.body_md }}
+        RUN_URL: ${{ inputs.run_url || format('{0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}
+        TEAM_KEY: ${{ inputs.team }}
+        PROJECT_NAME: ${{ inputs.project }}
+        LABELS: ${{ inputs.labels }}
+      run: bash "${{ github.action_path }}/linear-health-alert.sh"
