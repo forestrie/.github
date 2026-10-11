@@ -50,6 +50,14 @@ the source's expected interval**. So a badge that stops being updated goes red
 rather than holding its last colour, and a lane that has never reported is red
 rather than grey. Grey previously hid a Lane B whose T3 suite was failing.
 
+One more silence to guard against: GitHub disables every workflow in a public
+repository that has had no commits for 60 days, and a disabled workflow ignores
+`repository_dispatch` as well as its schedule while the dispatch API still
+returns success. This repository only changes when this page does, so on
+2026-10-01 all three mirrors were switched off and the badges froze. Each
+mirror now re-enables itself on every tick, and each source re-enables its
+mirror before dispatching, so a disabled mirror heals on the next report.
+
 | Repository                |  | | |
 |:--------------------------|:------|:------|------:|
 | [canopy][canopy] |[![status][canopy-ci-badge]][canopy-ci] | ingestion with a SCITT/SCRAPI personality | active development |
@@ -93,8 +101,8 @@ See also:
 [canopy-ci]: https://github.com/forestrie/canopy/actions/workflows/ci.yml
 [arbor-ci-badge]: https://github.com/forestrie/arbor/actions/workflows/go-test.yml/badge.svg
 [arbor-ci]: https://github.com/forestrie/arbor/actions/workflows/go-test.yml
-[univocity-ci-badge]: https://github.com/forestrie/univocity/actions/workflows/ci.yml/badge.svg
-[univocity-ci]: https://github.com/forestrie/univocity/actions/workflows/ci.yml
+[univocity-ci-badge]: https://github.com/forestrie/univocity/actions/workflows/test.yml/badge.svg
+[univocity-ci]: https://github.com/forestrie/univocity/actions/workflows/test.yml
 [mandate-ci-badge]: https://github.com/forestrie/mandate/actions/workflows/test.yml/badge.svg
 [mandate-ci]: https://github.com/forestrie/mandate/actions/workflows/test.yml
 [forestrie-cli-ci-badge]: https://github.com/forestrie/forestrie-cli/actions/workflows/ci.yml/badge.svg

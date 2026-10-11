@@ -22,14 +22,14 @@ on:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
 
 jobs:
   status:
     uses: ./.github/workflows/status-mirror.yml
     permissions:
       contents: read
-      actions: read
+      actions: write
     with:
       label: Lane B qualification (stage T3)
       source: forestrie/release-orchestrator qualify-stage.yml

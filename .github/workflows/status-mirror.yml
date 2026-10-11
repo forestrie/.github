@@ -44,7 +44,7 @@ on:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
 
 jobs:
   mirror:
@@ -52,6 +52,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # GitHub disables every workflow in a public repository after 60 days
+      # without a commit, and a disabled workflow drops repository_dispatch as
+      # well as its schedule (the dispatch API still returns 204 to the
+      # source). This repository only changes when the profile README does, so
+      # on 2026-10-01 all three mirrors were silently disabled and the badges
+      # froze. Enabling a workflow counts as activity and resets that clock,
+      # so each tick re-enables its own caller. The sources also re-enable the
+      # mirror before dispatching, which heals a mirror that was already
+      # disabled; this step keeps it from being disabled in the first place.
+      # Soft failure: a keepalive that cannot run must not colour the badge.
+      - name: Keep this workflow enabled
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW_FILE: ${{ inputs.workflow_file }}
+        run: gh api -X PUT "repos/${GITHUB_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/enable"
 
       - name: ${{ inputs.dispatched && 'Report verdict' || 'Verify freshness' }}
         env:

@@ -19,14 +19,14 @@ on:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
 
 jobs:
   status:
     uses: ./.github/workflows/status-mirror.yml
     permissions:
       contents: read
-      actions: read
+      actions: write
     with:
       label: endpoints (liveness)
       source: forestrie/forest-1 forestrie-status.yaml
