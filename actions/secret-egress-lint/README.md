@@ -2,8 +2,7 @@
 
 Fails any workflow that moves secret-derived data across a job boundary.
 
-Plan [2608-04](https://github.com/forestrie/devdocs/blob/main/plans/plan-2608-04-secret-egress-audit-and-lint.md)
-· FOR-517 / FOR-519. Policy: [docs/ci-policy.md](../../docs/ci-policy.md).
+Policy: [docs/ci-policy.md](../../docs/ci-policy.md).
 
 ## The behaviour it exists to catch
 

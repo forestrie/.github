@@ -3,11 +3,6 @@
 Binding for every repository in this organisation. Three sections, each written
 because something went wrong in the way it describes.
 
-Sources: plans [2608-04](https://github.com/forestrie/devdocs/blob/main/plans/plan-2608-04-secret-egress-audit-and-lint.md)
-(secret egress) and [2608-05](https://github.com/forestrie/devdocs/blob/main/plans/plan-2608-05-kit-publish-discipline.md)
-(publish discipline), consolidated by
-[2608-06](https://github.com/forestrie/devdocs/blob/main/plans/plan-2608-06-qualification-promotion-remediation/README.md).
-
 ---
 
 ## 1. Secrets never cross a job boundary
