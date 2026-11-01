@@ -3,9 +3,6 @@
 Turns a scheduled workflow's verdict into a Linear issue that raises itself,
 updates itself, and closes itself.
 
-Plan [2608-02](https://github.com/forestrie/devdocs/blob/main/plans/plan-2608-02-qualification-red-alerting.md)
-· FOR-517.
-
 ## Why an issue, not an email
 
 `qualify-dev` was red for six days and the canopy metering canary for three, in

@@ -2,10 +2,6 @@
 
 Pushes the release tags a merge implies, so no human has to remember to.
 
-Plans [2608-01 Q4](https://github.com/forestrie/devdocs/blob/main/plans/plan-2608-01-continuous-dev-qualification.md)
-and [2608-05 Q1](https://github.com/forestrie/devdocs/blob/main/plans/plan-2608-05-kit-publish-discipline.md)
-· FOR-517 / FOR-520.
-
 ## Why
 
 `@forestrie/canopy-e2e-kit` sat at npm 0.6.1 while the repo reached 0.9.1 —
